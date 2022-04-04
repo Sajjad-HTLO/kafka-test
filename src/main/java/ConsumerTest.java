@@ -14,7 +14,7 @@ public class ConsumerTest {
 //        testFailedBrokerConnection();
 //        testSuccessfulBrokerConnection();
 
-        testConsumeMessages();
+        testKeepConnectionOpenAndConsumeMessage();
     }
 
     private static void testFailedBrokerConnection() {
@@ -39,17 +39,17 @@ public class ConsumerTest {
         }
     }
 
-    private static void testConsumeMessages() {
-        System.out.println("About to open a connection for 1 minute to a valid broker and consume some messages...");
+    private static void testKeepConnectionOpenAndConsumeMessage() {
+        System.out.println("About to open a connection for 10 seconds to a valid broker and consume some messages...");
         final Consumer<Long, String> consumer = ConsumerUtil.createConsumer(BOOTSTRAP_SERVER);
 
         // Wait 10 seconds
-        long startTime = System.currentTimeMillis(); //fetch starting time
-        while (false || (System.currentTimeMillis() - startTime) < 10000) {
+        long startTime = System.currentTimeMillis();
+        while ((System.currentTimeMillis() - startTime) < 10000) {
             // Consumer poll every one second
             final ConsumerRecords<Long, String> consumerRecords = consumer.poll(Duration.ofSeconds(1));
 
-            System.out.println("consumerRecords count: " + consumerRecords.count());
+            System.out.println("consumer records count: " + consumerRecords.count());
             consumer.commitAsync();
         }
 
