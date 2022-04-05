@@ -3,29 +3,26 @@ import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 public class ProducerUtil {
 
     private static final String TOPIC = "my-topic-1";
     private static final String BOOTSTRAP_SERVER = "localhost:9092";
 
-    public static void main(String[] args) throws Exception {
-        runProducer(70); // Send 70 messages
-    }
-
-    static void runProducer(final int sendMessageCount) throws Exception {
+    static void runProducer(final int sendMessageCount) throws ExecutionException, InterruptedException {
         final Producer<Long, String> producer = createProducer();
         long time = System.currentTimeMillis();
 
         try {
             for (long index = time; index < time + sendMessageCount; index++) {
-                final ProducerRecord<Long, String> record = new ProducerRecord<>(TOPIC, index, "Hello Mom " + index);
+                var producedTime = System.currentTimeMillis();
+                final ProducerRecord<Long, String> record = new ProducerRecord<>(TOPIC, index, "A message, Milli time: " + producedTime + index);
 
                 RecordMetadata metadata = producer.send(record).get();
 
-                long elapsedTime = System.currentTimeMillis() - time;
-                System.out.printf("sent record(key=%s value=%s) " + "meta(partition=%d, offset=%d) time=%d\n", record.key(),
-                        record.value(), metadata.partition(), metadata.offset(), elapsedTime);
+                System.out.printf("sent record(key=%s value=%s) " + "meta(partition=%d, offset=%d\n",
+                        record.key(), record.value(), metadata.partition(), metadata.offset());
             }
         } finally {
             producer.flush();
