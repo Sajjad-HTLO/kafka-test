@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutionException;
 
 public class ProducerUtil {
 
-    private static final String TOPIC = "my-topic-1";
+    private static final String TOPIC = "my-topic";
     private static final String BOOTSTRAP_SERVER = "localhost:9092";
 
     static void runProducer(final int sendMessageCount) throws ExecutionException, InterruptedException {
