@@ -108,9 +108,14 @@ public class KafKaConsumer {
             // timed out. Try to stop the code if possible.
             future.cancel(true);
             logger.info(FAILED_TEST);
+        } finally {
+            try {
+                service.shutdown();
+                consumer.close();
+            } catch (Exception e) {
+                // Ignored
+            }
         }
-        service.shutdown();
-        consumer.close();
     }
 
     /**
@@ -131,17 +136,23 @@ public class KafKaConsumer {
             // timed out. Try to stop the code if possible.
             future.cancel(true);
             logger.info(PASSED_TEST);
+        } finally {
+            try {
+                service.shutdown();
+                consumer.close();
+            } catch (Exception e) {
+                // Ignored
+            }
         }
-        service.shutdown();
-        consumer.close();
     }
 
     /**
      * Tries to validate broker establishment and topic existence.
+     * If waiting takes longer than  60 seconds, then the timeout exception will be thrown and test will fail.
      */
     private static void checkValidTopic() {
         logger.warn(SIMPLE_LINE);
-        logger.info("Test valid topic discovery...");
+        logger.info("Test valid topic discovery, wait to discover the topic... ");
         final Consumer<Long, String> consumer = ConsumerUtil.createConsumer(BOOTSTRAP_SERVER, CUSTOM_TOPIC);
         try {
             // Check if custom topic is provided, then check against it
@@ -151,7 +162,6 @@ public class KafKaConsumer {
                 logger.info(PASSED_TEST);
             else
                 logger.info(FAILED_TEST);
-
         } catch (TimeoutException e) {
             logger.info("Failed to connect to broker.");
             logger.info(FAILED_TEST);
@@ -198,14 +208,14 @@ public class KafKaConsumer {
      */
     private static void checkConsumeDummyMessages() throws ExecutionException, InterruptedException {
         logger.warn(SIMPLE_LINE);
-        logger.info("Test to open a connection for 10 seconds to a valid broker and consume dummy produced messages...");
-        final var dummyMessageCount = 50;
+        logger.info("Test to open a connection for 60 seconds to a valid broker and consume dummy produced messages...");
+        final var dummyMessageCount = 100;
         ProducerUtil.runProducer(BOOTSTRAP_SERVER, dummyMessageCount, CUSTOM_TOPIC);
         final Consumer<Long, String> consumer = ConsumerUtil.createConsumer(BOOTSTRAP_SERVER, CUSTOM_TOPIC);
 
-        // Wait 10 seconds
+        // Wait for 60 seconds
         var startTime = System.currentTimeMillis();
-        while ((System.currentTimeMillis() - startTime) < 10000) {
+        while ((System.currentTimeMillis() - startTime) < 60000) {
             // Poll for new messages and keep alive the consumer
             final ConsumerRecords<Long, String> consumerRecords = consumer.poll(Duration.ofMillis(100));
 
