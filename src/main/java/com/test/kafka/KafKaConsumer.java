@@ -87,12 +87,6 @@ public class KafKaConsumer {
             case CONSUME_DUMMY_MESSAGES:
                 checkConsumeDummyMessages();
                 break;
-            case ALL_TESTS:
-                checkValidConnection();
-                checkInvalidConnection();
-                checkConsumeCurrentMessages();
-                checkConsumeDummyMessages();
-                break;
         }
     }
 
@@ -234,6 +228,6 @@ public class KafKaConsumer {
     }
 
     protected enum TestsToRun {
-        ALL_TESTS, VALID_CONNECTION, INVALID_CONNECTION, VALID_TOPIC, CONSUME_CURRENT_MESSAGES, CONSUME_DUMMY_MESSAGES
+        VALID_CONNECTION, INVALID_CONNECTION, VALID_TOPIC, CONSUME_CURRENT_MESSAGES, CONSUME_DUMMY_MESSAGES
     }
 }

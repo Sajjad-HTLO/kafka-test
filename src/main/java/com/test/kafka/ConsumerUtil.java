@@ -96,12 +96,8 @@ public class ConsumerUtil {
         } else if (testMethod.equalsIgnoreCase("cdm")) {
             message.append(", test consume dummy messages.");
             testsToRun = KafKaConsumer.TestsToRun.CONSUME_DUMMY_MESSAGES;
-        } else if (testMethod.equalsIgnoreCase("all")) {
-            message.append(", all test cases.");
-            testsToRun = KafKaConsumer.TestsToRun.ALL_TESTS;
         } else {
-            message.append(", Wrong test method provided, defaulting to all test cases..");
-            testsToRun = KafKaConsumer.TestsToRun.ALL_TESTS;
+            throw new IllegalArgumentException();
         }
 
         return new Configuration(bootstrapHost, topic, message.toString(), testsToRun);
