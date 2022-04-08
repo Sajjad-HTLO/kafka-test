@@ -71,7 +71,7 @@ public class KafKaConsumer {
         logger.warn(SIMPLE_LINE);
         logger.info(configurationPair.getMessage());
 
-        switch (configurationPair.getTestsToRun()) {
+        switch (configurationPair.getTestToRun()) {
             case VALID_CONNECTION:
                 checkValidConnection();
                 break;
@@ -237,7 +237,7 @@ public class KafKaConsumer {
         consumer.close();
     }
 
-    protected enum TestsToRun {
+    protected enum TestToRun {
         VALID_CONNECTION, INVALID_CONNECTION, VALID_TOPIC, CONSUME_CURRENT_MESSAGES, CONSUME_DUMMY_MESSAGES
     }
 }

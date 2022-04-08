@@ -79,23 +79,23 @@ public class ConsumerUtil {
     }
 
     private static Configuration resolveTestToRun(String bootstrapHost, String topic, StringBuilder message, String testMethod) {
-        KafKaConsumer.TestsToRun testsToRun;
+        KafKaConsumer.TestToRun testsToRun;
 
         if (testMethod.equalsIgnoreCase("vc")) {
             message.append(", test connection.");
-            testsToRun = KafKaConsumer.TestsToRun.VALID_CONNECTION;
+            testsToRun = KafKaConsumer.TestToRun.VALID_CONNECTION;
         } else if (testMethod.equalsIgnoreCase("ic")) {
             message.append(", test invalid connection.");
-            testsToRun = KafKaConsumer.TestsToRun.INVALID_CONNECTION;
+            testsToRun = KafKaConsumer.TestToRun.INVALID_CONNECTION;
         } else if (testMethod.equalsIgnoreCase("ct")) {
             message.append(", test topic discovery.");
-            testsToRun = KafKaConsumer.TestsToRun.VALID_TOPIC;
+            testsToRun = KafKaConsumer.TestToRun.VALID_TOPIC;
         } else if (testMethod.equalsIgnoreCase("ccm")) {
             message.append(", test consume current messages.");
-            testsToRun = KafKaConsumer.TestsToRun.CONSUME_CURRENT_MESSAGES;
+            testsToRun = KafKaConsumer.TestToRun.CONSUME_CURRENT_MESSAGES;
         } else if (testMethod.equalsIgnoreCase("cdm")) {
             message.append(", test consume dummy messages.");
-            testsToRun = KafKaConsumer.TestsToRun.CONSUME_DUMMY_MESSAGES;
+            testsToRun = KafKaConsumer.TestToRun.CONSUME_DUMMY_MESSAGES;
         } else {
             throw new IllegalArgumentException();
         }

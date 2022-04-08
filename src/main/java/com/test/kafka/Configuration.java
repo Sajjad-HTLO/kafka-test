@@ -4,21 +4,21 @@ public class Configuration {
     private final String address;
     private final String topic;
     private final String message;
-    private final KafKaConsumer.TestsToRun testsToRun;
+    private final KafKaConsumer.TestToRun testToRun;
 
-    public Configuration(String host, String topic, String t, KafKaConsumer.TestsToRun u) {
+    public Configuration(String host, String topic, String t, KafKaConsumer.TestToRun u) {
         this.address = host;
         this.topic = topic;
         this.message = t;
-        this.testsToRun = u;
+        this.testToRun = u;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public KafKaConsumer.TestsToRun getTestsToRun() {
-        return testsToRun;
+    public KafKaConsumer.TestToRun getTestToRun() {
+        return testToRun;
     }
 
     public String getAddress() {
